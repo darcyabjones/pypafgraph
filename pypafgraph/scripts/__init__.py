@@ -7,6 +7,7 @@ from pypafgraph.scripts.filter import filter_cli, filter_main
 from pypafgraph.scripts.repeats import repeats_cli, repeats_main
 from pypafgraph.scripts.unsoftmask import unsoftmask_cli, unsoftmask_main
 from pypafgraph.scripts.cluster import cluster_cli, cluster_main
+from pypafgraph.scripts.selectseqs import selectseqs_cli, selectseqs_main
 
 
 def cli(prog: str, args: str) -> argparse.Namespace:
@@ -46,6 +47,13 @@ def cli(prog: str, args: str) -> argparse.Namespace:
 
     cluster_cli(cluster_subparser)
 
+    selectseqs_subparser = subparsers.add_parser(
+        "selectseqs",
+        help="Extract sequences given a tsv of clusters."
+    )
+
+    selectseqs_cli(selectseqs_subparser)
+
     parsed = parser.parse_args(args)
 
     if parsed.subparser_name is None:
@@ -66,6 +74,8 @@ def main():
             unsoftmask_main(args)
         elif args.subparser_name == "cluster":
             cluster_main(args)
+        elif args.subparser_name == "selectseqs":
+            selectseqs_main(args)
         else:
             raise ValueError("I shouldn't reach this point ever")
 
