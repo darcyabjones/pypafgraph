@@ -67,6 +67,9 @@ def filter_by_interval(
 ) -> bool:
     """ """
 
+    if itree is None and interval.length() >= min_length:
+        return False
+
     len_intersect = total_intersection(itree, interval)
 
     if interval.length() <= 0:
@@ -97,12 +100,12 @@ def filter_main(args: argparse.Namespace):
             continue
 
         query, qinterval = p.query_as_interval()
-        if filter_by_interval(bed_tree[query], qinterval,
+        if filter_by_interval(bed_tree.get(query, None), qinterval,
                               args.min_length, args.prop_overlap):
             continue
 
         target, tinterval = p.target_as_interval()
-        if filter_by_interval(bed_tree[target], tinterval,
+        if filter_by_interval(bed_tree.get(target, None), tinterval,
                               args.min_length, args.prop_overlap):
             continue
 
